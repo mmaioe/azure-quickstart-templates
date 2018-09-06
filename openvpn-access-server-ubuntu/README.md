@@ -1,3 +1,7 @@
+I modified original azure template with two new parameters: subnetid and virtualnetwork. 
+
+So, you can install OpenVPN in the network you want to deploy.
+
 # Openvpn Access Server on Ubuntu VM
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmmaioe%2Fazure-quickstart-templates%2Fmaster%2Fopenvpn-access-server-ubuntu%2Fazuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
