@@ -62,12 +62,6 @@
       "metadata": {
         "description": "virtualnetwork name for deployging VM"
       }
-    },
-    "securitygroup": {
-      "type": "string",
-      "metadata": {
-        "description": "security group for deployging VM"
-      }
     }
   },
   "variables": {
