@@ -50,6 +50,24 @@
       "metadata": {
         "description": "Location for all resources."
       }
+    },
+    "subnetid": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnetid for deployging VM"
+      }
+    },
+    "virtualnetworkname": {
+      "type": "string",
+      "metadata": {
+        "description": "virtualnetwork name for deployging VM"
+      }
+    },
+    "securitygroup": {
+      "type": "string",
+      "metadata": {
+        "description": "security group for deployging VM"
+      }
     }
   },
   "variables": {
@@ -63,9 +81,9 @@
     "publicIPAddressName": "OpenVPN-PublicIP",
     "publicIPAddressType": "Static",
     "vmName": "OpenVPN-VM",
-    "virtualNetworkName": "OpenVPN-VNET",
-    "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets',variables('virtualNetworkName'),variables('subnetName'))]",
-    "networkSecurityGroupName": "OpenVPN-NSG"
+    "virtualNetworkName": "parameters('virtualnetworkname')",
+    "subnetRef": "[parameters('subnetid')]",
+    "networkSecurityGroupName": "parameters('securitygroup')"
   },
   "resources": [
     {
@@ -78,89 +96,6 @@
         "dnsSettings": {
           "domainNameLabel": "[parameters('dnsNamePrefix')]"
         }
-      }
-    },
-    {
-      "name": "[variables('networkSecurityGroupName')]",
-      "type": "Microsoft.Network/networkSecurityGroups",
-      "apiVersion": "2015-06-15",
-      "location": "[parameters('location')]",
-      "properties": {
-        "securityRules": [
-          {
-            "name": "OpenVPN_WebServer",
-            "properties": {
-              "priority": 1200,
-              "sourceAddressPrefix": "*",
-              "protocol": "Tcp",
-              "destinationPortRange": "943",
-              "access": "Allow",
-              "direction": "Inbound",
-              "sourcePortRange": "*",
-              "destinationAddressPrefix": "*"
-            }
-          },
-          {
-            "name": "OpenVPN443",
-            "properties": {
-              "priority": 1100,
-              "sourceAddressPrefix": "*",
-              "protocol": "Tcp",
-              "destinationPortRange": "443",
-              "access": "Allow",
-              "direction": "Inbound",
-              "sourcePortRange": "*",
-              "destinationAddressPrefix": "*"
-            }
-          },
-          {
-            "name": "OpenVPN1194",
-            "properties": {
-              "priority": 1300,
-              "sourceAddressPrefix": "*",
-              "protocol": "UDP",
-              "destinationPortRange": "1194",
-              "access": "Allow",
-              "direction": "Inbound",
-              "sourcePortRange": "*",
-              "destinationAddressPrefix": "*"
-            }
-          },
-          {
-            "name": "default-allow-ssh",
-            "properties": {
-              "priority": 1000,
-              "sourceAddressPrefix": "*",
-              "protocol": "Tcp",
-              "destinationPortRange": "22",
-              "access": "Allow",
-              "direction": "Inbound",
-              "sourcePortRange": "*",
-              "destinationAddressPrefix": "*"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "apiVersion": "2015-06-15",
-      "type": "Microsoft.Network/virtualNetworks",
-      "name": "[variables('virtualNetworkName')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[variables('addressPrefix')]"
-          ]
-        },
-        "subnets": [
-          {
-            "name": "[variables('subnetName')]",
-            "properties": {
-              "addressPrefix": "[variables('subnetPrefix')]"
-            }
-          }
-        ]
       }
     },
     {
