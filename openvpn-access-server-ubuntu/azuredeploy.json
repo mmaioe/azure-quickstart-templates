@@ -81,8 +81,6 @@
     "publicIPAddressName": "OpenVPN-PublicIP",
     "publicIPAddressType": "Static",
     "vmName": "OpenVPN-VM",
-    "virtualNetworkName": "parameters('virtualnetworkname')",
-    "subnetRef": "[parameters('subnetid')]",
     "networkSecurityGroupName": "parameters('securitygroup')"
   },
   "resources": [
@@ -105,8 +103,8 @@
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
-        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
-        "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]"
+        "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualnetworkname'))]",
+        "[concat('Microsoft.Network/networkSecurityGroups/', parameters('securitygroup'))]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -118,13 +116,13 @@
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
               },
               "subnet": {
-                "id": "[variables('subnetRef')]"
+                "id": "[parameters('subnetid')]"
               }
             }
           }
         ],
         "networkSecurityGroup": {
-          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('securitygroup'))]"
         }
       }
     },
